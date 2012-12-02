@@ -72,7 +72,7 @@ public class AllProductsActivity extends ListActivity {
 
 				// Starting new intent
 				Intent in = new Intent(getApplicationContext(),
-						EditProductActivity.class);
+						EditUserActivity.class);
 				// sending pid to next activity
 				in.putExtra(TAG_PID, pid);
 				
