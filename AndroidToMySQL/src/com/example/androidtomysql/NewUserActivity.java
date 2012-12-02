@@ -28,7 +28,7 @@ public class NewUserActivity extends Activity {
     EditText inputEmail;
     EditText inputPassword;
  
-    // url to create new user
+    // URL to create new user
     private static String url_create_user = "http://appclub.bplaced.net/android_connect/create_user.php";
  
     // JSON Node names
@@ -91,7 +91,7 @@ public class NewUserActivity extends Activity {
             params.add(new BasicNameValuePair("password", password));
  
             // getting JSON Object
-            // Note that create user url accepts POST method
+            // Note that create user URL accepts POST method
             JSONObject json = jsonParser.makeHttpRequest(url_create_user,
                     "POST", params);
  

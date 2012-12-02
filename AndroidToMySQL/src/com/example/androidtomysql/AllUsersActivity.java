@@ -33,7 +33,7 @@ public class AllUsersActivity extends ListActivity {
  
     ArrayList<HashMap<String, String>> usersList;
  
-    // url to get all users list
+    // URL to get all users list
     private static String url_all_users = "http://appclub.bplaced.net/android_connect/get_all_users.php";
  
     // JSON Node names
@@ -50,17 +50,17 @@ public class AllUsersActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.all_users);
  
-        // Hashmap for ListView
+        // HashMap for ListView
         usersList = new ArrayList<HashMap<String, String>>();
  
         // Loading users in Background Thread
         new LoadAllUsers().execute();
  
-        // Get listview
+        // Get ListView
         ListView lv = getListView();
  
-        // on seleting single user
-        // launching Edit User Screen
+        // on selecting single user
+        // launching EditUser Screen
         lv.setOnItemClickListener(new OnItemClickListener() {
  
             @Override
@@ -83,7 +83,7 @@ public class AllUsersActivity extends ListActivity {
  
     }
  
-    // Response from Edit User Activity
+    // Response from EditUser Activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -118,7 +118,7 @@ public class AllUsersActivity extends ListActivity {
         }
  
         /**
-         * getting All users from url
+         * getting All users from URL
          * */
         protected String doInBackground(String... args) {
             // Building Parameters
@@ -126,7 +126,7 @@ public class AllUsersActivity extends ListActivity {
             // getting JSON string from URL
             JSONObject json = jParser.makeHttpRequest(url_all_users, "GET", params);
  
-            // Check your log cat for JSON reponse
+            // Check your log cat for JSON response
             Log.d("All Users: ", json.toString());
  
             try {
@@ -142,7 +142,7 @@ public class AllUsersActivity extends ListActivity {
                     for (int i = 0; i < user.length(); i++) {
                         JSONObject c = user.getJSONObject(i);
  
-                        // Storing each json item in variable
+                        // Storing each JSON item in variable
                         String id = c.getString(TAG_ID);
                         String name = c.getString(TAG_USERNAME);
  
@@ -189,7 +189,7 @@ public class AllUsersActivity extends ListActivity {
                             R.layout.list_item, new String[] { TAG_ID,
                                     TAG_USERNAME},
                             new int[] { R.id2.id, R.id2.username });
-                    // updating listview
+                    // updating ListView
                     setListAdapter(adapter);
                 }
             });

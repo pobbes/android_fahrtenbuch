@@ -35,13 +35,13 @@ public class EditUserActivity extends Activity {
 	// JSON parser class
 	JSONParser jsonParser = new JSONParser();
 
-	// single product url
+	// URL to user_details
 	private static final String url_user_details = "http://appclub.bplaced.net/android_connect/get_user_details.php";
 
-	// url to update product
+	// URL to update_user
 	private static final String url_update_user = "http://appclub.bplaced.net/android_connect/update_user.php";
 	
-	// url to delete product
+	// URL to delete_user
 	private static final String url_delete_user = "http://appclub.bplaced.net/android_connect/delete_user.php";
 
 	// JSON Node names
@@ -61,13 +61,13 @@ public class EditUserActivity extends Activity {
 		btnSave = (Button) findViewById(R.id2.btnSave);
 		btnDelete = (Button) findViewById(R.id2.btnDelete);
 
-		// getting product details from intent
+		// getting user_details from intent
 		Intent i = getIntent();
 		
-		// getting product id from intent
+		// getting user_id from intent
 		id = i.getStringExtra(TAG_ID);
 
-		// Getting complete product details in background thread
+		// Getting complete user details in background thread
 		new GetUserDetails().execute();
 
 		// save button click event
@@ -75,7 +75,7 @@ public class EditUserActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				// starting background task to update product
+				// starting background task to update user
 				new SaveUserDetails().execute();
 			}
 		});
@@ -85,7 +85,7 @@ public class EditUserActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				// deleting product in background thread
+				// deleting user in background thread
 				new DeleteUser().execute();
 			}
 		});
@@ -93,7 +93,7 @@ public class EditUserActivity extends Activity {
 	}
 
 	/**
-	 * Background Async Task to Get complete product details
+	 * Background Async Task to Get complete user details
 	 * */
 	class GetUserDetails extends AsyncTask<String, String, String> {
 
@@ -111,7 +111,7 @@ public class EditUserActivity extends Activity {
 		}
 
 		/**
-		 * Getting product details in background thread
+		 * Getting user details in background thread
 		 * */
 		protected String doInBackground(String... params) {
 
@@ -125,22 +125,22 @@ public class EditUserActivity extends Activity {
 						List<NameValuePair> params = new ArrayList<NameValuePair>();
 						params.add(new BasicNameValuePair("id", id));
 
-						// getting product details by making HTTP request
-						// Note that product details url will use GET request
+						// getting user details by making HTTP request
+						// Note that user details URL will use GET request
 						JSONObject json = jsonParser.makeHttpRequest(
 								url_user_details, "GET", params);
 
-						// check your log for json response
-						Log.d("Single Product Details", json.toString());
+						// check your log for JSON response
+						Log.d("Single User Details", json.toString());
 						
-						// json success tag
+						// JSON success tag
 						success = json.getInt(TAG_SUCCESS);
 						if (success == 1) {
-							// successfully received product details
+							// successfully received user details
 							JSONArray userObj = json
 									.getJSONArray(TAG_USER); // JSON Array
 							
-							// get first product object from JSON Array
+							// get first user object from JSON Array
 							JSONObject user = userObj.getJSONObject(0);
 
 							// user with this id found
@@ -155,7 +155,7 @@ public class EditUserActivity extends Activity {
 							txtPassword.setText(user.getString(TAG_PASSWORD));
 
 						}else{
-							// product with id not found
+							// user with id not found
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -211,23 +211,23 @@ public class EditUserActivity extends Activity {
 			params.add(new BasicNameValuePair(TAG_EMAIL, email));
 			params.add(new BasicNameValuePair(TAG_PASSWORD, password));
 
-			// sending modified data through http request
-			// Notice that update user url accepts POST method
+			// sending modified data through HTTP request
+			// Notice that update user URL accepts POST method
 			JSONObject json = jsonParser.makeHttpRequest(url_update_user,
 					"POST", params);
 
-			// check json success tag
+			// check JSON success tag
 			try {
 				int success = json.getInt(TAG_SUCCESS);
 				
 				if (success == 1) {
 					// successfully updated
 					Intent i = getIntent();
-					// send result code 100 to notify about product update
+					// send result code 100 to notify about user update
 					setResult(100, i);
 					finish();
 				} else {
-					// failed to update product
+					// failed to update user
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -241,13 +241,13 @@ public class EditUserActivity extends Activity {
 		 * After completing background task Dismiss the progress dialog
 		 * **/
 		protected void onPostExecute(String file_url) {
-			// dismiss the dialog once product uupdated
+			// dismiss the dialog once user updated
 			pDialog.dismiss();
 		}
 	}
 
 	/*****************************************************************
-	 * Background Async Task to Delete Product
+	 * Background Async Task to Delete User
 	 * */
 	class DeleteUser extends AsyncTask<String, String, String> {
 
@@ -258,14 +258,14 @@ public class EditUserActivity extends Activity {
 		protected void onPreExecute() {
 			super.onPreExecute();
 			pDialog = new ProgressDialog(EditUserActivity.this);
-			pDialog.setMessage("Deleting Product...");
+			pDialog.setMessage("Deleting User...");
 			pDialog.setIndeterminate(false);
 			pDialog.setCancelable(true);
 			pDialog.show();
 		}
 
 		/**
-		 * Deleting product
+		 * Deleting user
 		 * */
 		protected String doInBackground(String... args) {
 
@@ -276,20 +276,20 @@ public class EditUserActivity extends Activity {
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
 				params.add(new BasicNameValuePair("id", id));
 
-				// getting product details by making HTTP request
+				// getting user details by making HTTP request
 				JSONObject json = jsonParser.makeHttpRequest(
 						url_delete_user, "POST", params);
 
-				// check your log for json response
-				Log.d("Delete Product", json.toString());
+				// check your log for JSON response
+				Log.d("Delete User", json.toString());
 				
-				// json success tag
+				// JSON success tag
 				success = json.getInt(TAG_SUCCESS);
 				if (success == 1) {
-					// product successfully deleted
+					// user successfully deleted
 					// notify previous activity by sending code 100
 					Intent i = getIntent();
-					// send result code 100 to notify about product deletion
+					// send result code 100 to notify about user deletion
 					setResult(100, i);
 					finish();
 				}
@@ -304,7 +304,7 @@ public class EditUserActivity extends Activity {
 		 * After completing background task Dismiss the progress dialog
 		 * **/
 		protected void onPostExecute(String file_url) {
-			// dismiss the dialog once product deleted
+			// dismiss the dialog once user deleted
 			pDialog.dismiss();
 
 		}
