@@ -50,7 +50,7 @@ public class EditUserActivity extends Activity {
  
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
-    private static final String TAG_USER = "users";
+    private static final String TAG_USER = "user";
     private static final String TAG_UID = "uid";
     private static final String TAG_USERNAME = "username";
     private static final String TAG_EMAIL = "email";

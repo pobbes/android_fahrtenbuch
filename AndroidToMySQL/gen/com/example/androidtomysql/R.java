@@ -13,17 +13,19 @@ public final class R {
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
     }
-    public static final class id2 {
+    public static final class id {
         public static final int btnCreateUser=0x7f070003;
         public static final int btnDelete=0x7f070005;
         public static final int btnSave=0x7f070004;
         public static final int btnViewUsers=0x7f070008;
-        public static final int id=0x7f070006;
         public static final int inputEmail=0x7f070001;
         public static final int inputPassword=0x7f070002;
         public static final int inputUsername=0x7f070000;
-        public static final int menu_settings=0x7f070009;
+        public static final int uid=0x7f070006;
         public static final int username=0x7f070007;
+    }
+    public static final class id2 {
+        public static final int menu_settings=0x7f080000;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
