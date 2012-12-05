@@ -7,14 +7,14 @@
  
     <!--  Sample Dashboard screen with Two buttons -->
     <!--  Button to view all users screen -->
-    <Button android:id="@+id2/btnViewUsers"
+    <Button android:id="@+id/btnViewUsers"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="View Users"
         android:layout_marginTop="25dip"/>
  
     <!--  Button to create a new user screen -->
-    <Button android:id="@+id2/btnCreateUser"
+    <Button android:id="@+id/btnCreateUser"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Add New User"

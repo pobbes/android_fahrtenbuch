@@ -17,8 +17,8 @@ public class MainScreenActivity extends Activity{
         setContentView(R.layout.main_screen);
  
         // Buttons
-        btnViewUsers = (Button) findViewById(R.id2.btnViewUsers);
-        btnNewUser = (Button) findViewById(R.id2.btnCreateUser);
+        btnViewUsers = (Button) findViewById(R.id.btnViewUsers);
+        btnNewUser = (Button) findViewById(R.id.btnCreateUser);
  
         // view users click event
         btnViewUsers.setOnClickListener(new View.OnClickListener() {

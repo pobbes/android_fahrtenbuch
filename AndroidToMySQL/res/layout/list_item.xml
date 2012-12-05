@@ -4,16 +4,16 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
  
-    <!-- User id - will be HIDDEN - used to pass to other activity -->
+    <!-- User id (uid) - will be HIDDEN - used to pass to other activity -->
     <TextView
-        android:id="@+id2/id"
+        android:id="@+id/uid"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:visibility="gone" />
  
     <!-- Username Label -->
     <TextView
-        android:id="@+id2/username"
+        android:id="@+id/username"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingTop="6dip"

@@ -40,12 +40,12 @@ public class NewUserActivity extends Activity {
         setContentView(R.layout.add_user);
  
         // Edit Text
-        inputUsername = (EditText) findViewById(R.id2.inputUsername);
-        inputEmail = (EditText) findViewById(R.id2.inputEmail);
-        inputPassword = (EditText) findViewById(R.id2.inputPassword);
+        inputUsername = (EditText) findViewById(R.id.inputUsername);
+        inputEmail = (EditText) findViewById(R.id.inputEmail);
+        inputPassword = (EditText) findViewById(R.id.inputPassword);
  
         // Create button
-        Button btnCreateUser = (Button) findViewById(R.id2.btnCreateUser);
+        Button btnCreateUser = (Button) findViewById(R.id.btnCreateUser);
  
         // button click event
         btnCreateUser.setOnClickListener(new View.OnClickListener() {

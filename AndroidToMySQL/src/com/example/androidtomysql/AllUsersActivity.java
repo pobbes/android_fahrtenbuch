@@ -38,8 +38,8 @@ public class AllUsersActivity extends ListActivity {
  
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
-    private static final String TAG_USERS = "user";
-    private static final String TAG_ID = "id";
+    private static final String TAG_USER = "users";
+    private static final String TAG_UID = "uid";
     private static final String TAG_USERNAME = "username";
  
     // users JSONArray
@@ -65,16 +65,16 @@ public class AllUsersActivity extends ListActivity {
  
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
-                    int position, long id2) {
+                    int position, long id) {
                 // getting values from selected ListItem
-                String id = ((TextView) view.findViewById(R.id2.id)).getText()
+                String uid = ((TextView) view.findViewById(R.id.uid)).getText()
                         .toString();
  
                 // Starting new intent
                 Intent in = new Intent(getApplicationContext(),
                         EditUserActivity.class);
-                // sending id to next activity
-                in.putExtra(TAG_ID, id);
+                // sending UID to next activity
+                in.putExtra(TAG_UID, uid);
  
                 // starting new activity and expecting some response back
                 startActivityForResult(in, 100);
@@ -136,22 +136,22 @@ public class AllUsersActivity extends ListActivity {
                 if (success == 1) {
                     // users found
                     // Getting Array of Users
-                    user = json.getJSONArray(TAG_USERS);
+                    user = json.getJSONArray(TAG_USER);
  
                     // looping through All Users
                     for (int i = 0; i < user.length(); i++) {
                         JSONObject c = user.getJSONObject(i);
  
                         // Storing each JSON item in variable
-                        String id = c.getString(TAG_ID);
-                        String name = c.getString(TAG_USERNAME);
+                        String id = c.getString(TAG_UID);
+                        String username = c.getString(TAG_USERNAME);
  
                         // creating new HashMap
                         HashMap<String, String> map = new HashMap<String, String>();
  
                         // adding each child node to HashMap key => value
-                        map.put(TAG_ID, id);
-                        map.put(TAG_USERNAME, name);
+                        map.put(TAG_UID, id);
+                        map.put(TAG_USERNAME, username);
  
                         // adding HashList to ArrayList
                         usersList.add(map);
@@ -186,9 +186,9 @@ public class AllUsersActivity extends ListActivity {
                      * */
                     ListAdapter adapter = new SimpleAdapter(
                             AllUsersActivity.this, usersList,
-                            R.layout.list_item, new String[] { TAG_ID,
+                            R.layout.list_item, new String[] { TAG_UID,
                                     TAG_USERNAME},
-                            new int[] { R.id2.id, R.id2.username });
+                            new int[] { R.id.uid, R.id.username });
                     // updating ListView
                     setListAdapter(adapter);
                 }

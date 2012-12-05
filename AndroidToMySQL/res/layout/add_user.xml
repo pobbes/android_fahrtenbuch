@@ -14,7 +14,7 @@
         android:textSize="17dip"/>
  
     <!-- Input Username -->
-    <EditText android:id="@+id2/inputUsername"
+    <EditText android:id="@+id/inputUsername"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dip"
@@ -31,7 +31,7 @@
         android:textSize="17dip"/>
  
     <!-- Input Email -->
-    <EditText android:id="@+id2/inputEmail"
+    <EditText android:id="@+id/inputEmail"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dip"
@@ -48,7 +48,7 @@
         android:textSize="17dip"/>
  
     <!-- Input Password -->
-    <EditText android:id="@+id2/inputPassword"
+    <EditText android:id="@+id/inputPassword"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dip"
@@ -57,7 +57,7 @@
         android:gravity="top"/>
  
     <!-- Button Create User -->
-    <Button android:id="@+id2/btnCreateUser"
+    <Button android:id="@+id/btnCreateUser"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Create User"/>
