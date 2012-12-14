@@ -1,6 +1,18 @@
 <resources>
 
-    <string name="app_name">CarLog 0.3</string>
-    <string name="menu_settings">Menü Einstellungen</string>
+    <string name="btn_login">LogIn</string>
+    <string name="btn_next">Weiter</string>
+    <string name="btn_start">Starten</string>
+    <string name="btn_change">Ändern</string>
+    <string name="btn_save">Speichern</string>
+    <string name="btn_use">PKW wählen</string>
+    <string name="btn_admin">PKW verwalten</string>
+    <string name="btn_add">PKW Hinzufügen</string>
+    <string name="btn_delete">PKW Entfernen</string>
+    <string name="btn_manage">User verwalten</string>
+    <string name="btn_export">Daten exportieren</string>
+    <string name="btn_switch">Zwischenziel</string>
+    <string name="btn_purpose">Zweck</string>
+    <string name="app_name">CarLog</string>
 
 </resources>

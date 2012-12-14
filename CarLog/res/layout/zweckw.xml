@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/carbonbg" >
+
+    
+    <!--Geschäftlich
+    Privat
+    Anfahrt-->
+    
+        <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    
+            <!--Startort-->
+    
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" >
+
+        <requestFocus android:layout_width="wrap_content" />
+
+    </EditText>
+    
+    <resources android:layout_width="wrap_content" >
+ 
+    
+    <string name="carsign_prompt">PKW Auswählen</string>
+ 
+    <string-array name="carsign_arrays">
+        <item>HD-101</item>
+        <item>HD-102</item>
+        <item>HD-102</item>
+       
+    </string-array>
+ 
+</resources>
+    
+    
+    
+    
+
+    <!--Zielort-->
+    
+    <EditText
+     
+        android:id="@+id/editText2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weiter" />
+
+            
+    
+
+</LinearLayout>
