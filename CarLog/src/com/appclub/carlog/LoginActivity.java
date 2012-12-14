@@ -33,6 +33,7 @@ public class LoginActivity extends Activity
     private static String KEY_USERNAME = "username";
     private static String KEY_EMAIL = "email";
     private static String KEY_CREATED_AT = "created_at";
+    private static String KEY_IS_ADMIN = "is_admin";
  
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class LoginActivity extends Activity
  
                             // Clear all previous data in database
                             userFunction.logoutUser(getApplicationContext());
-                            db.addUser(json_user.getString(KEY_USERNAME), json_user.getString(KEY_EMAIL), json.getString(KEY_USER_ID), json_user.getString(KEY_CREATED_AT));                        
+                            db.addUser(json_user.getString(KEY_USERNAME), json_user.getString(KEY_EMAIL), json.getString(KEY_USER_ID), json_user.getString(KEY_CREATED_AT), json_user.getString(KEY_IS_ADMIN));                        
  
                             // Launch Dashboard Screen
                             Intent dashboard = new Intent(getApplicationContext(), DashboardActivity.class);
