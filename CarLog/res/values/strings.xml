@@ -13,6 +13,6 @@
     <string name="btn_export">Daten exportieren</string>
     <string name="btn_switch">Zwischenziel</string>
     <string name="btn_purpose">Zweck</string>
-    <string name="app_name">CarLog ashdas</string>
+    <string name="app_name">CarLog</string>
 
 </resources>
