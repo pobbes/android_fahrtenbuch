@@ -4,6 +4,9 @@ import java.util.HashMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import de.appclub.carlog.library.DatabaseHandler;
+import de.appclub.carlog.library.UserFunctions;
  
 import android.app.Activity;
 import android.content.Intent;
@@ -14,8 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
  
-import mm.de.appclub.carlog.DatabaseHandler;
-import mm.de.appclub.carlog.UserFunctions;
 
 public class LoginActivity extends Activity
 {
@@ -34,7 +35,7 @@ public class LoginActivity extends Activity
     private static String KEY_EMAIL = "email";
     private static String KEY_CREATED_AT = "created_at";
     private static String KEY_IS_ADMIN = "is_admin";
- 
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +45,8 @@ public class LoginActivity extends Activity
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         btnLogin = (Button) findViewById(R.id.sign_in_button);
-    //    btnLinkToRegister = (Button) findViewById(R.id.btnLinkToRegisterScreen);
-    //    loginErrorMsg = (TextView) findViewById(R.id.login_status_message);
+//        btnLinkToRegister = (Button) findViewById(R.id.btnLinkToRegisterScreen);
+        loginErrorMsg = (TextView) findViewById(R.id.login_status_message);
  
         // Login button Click Event
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -70,16 +71,44 @@ public class LoginActivity extends Activity
                             // Clear all previous data in database
                             userFunction.logoutUser(getApplicationContext());
                             db.addUser(json_user.getString(KEY_USERNAME), json_user.getString(KEY_EMAIL), json.getString(KEY_USER_ID), json_user.getString(KEY_CREATED_AT), json_user.getString(KEY_IS_ADMIN));                        
- 
-                            // Launch Dashboard Screen
-                            Intent dashboard = new Intent(getApplicationContext(), DashboardActivity.class);
- 
-                            // Close all views before launching Dashboard
-                            dashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(dashboard);
+                 
+                            
+                            String isadmin = null;
+                            isadmin = json_user.getString(KEY_IS_ADMIN);
+                                                        
+                            System.out.println(isadmin);
+                            
+                            //if user is Admin go to registerActivity                          
+                            if ((userFunction.isUserAdmin(isadmin)) == true) {                            	
+                            	System.out.println("Admin");
+                            	
+                            	// Launch Register Screen
+                            	Intent register = new Intent(getApplicationContext(), RegisterActivity.class);
+                            	
+                            	// Close all views before launching RegisterActivity   
+                            	register.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+                            	
+                            	// GoTo RegisterActivity
+                            	startActivity(register);	                            	
+                            
+                            	
+                            //if user is not Admin go to dashboardActivity	
+							}else{										
+								System.out.println("No Admin");
+								
+								// Launch DashBoard Screen
+								Intent dashboard = new Intent(getApplicationContext(), DashboardActivity.class);
+								
+								// Close all views before launching DashBoard  
+								dashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);								
+								
+								// GoTo DashBoardActivity
+								startActivity(dashboard);
+							}						
  
                             // Close Login Screen
                             finish();
+                            
                         }else{
                             // Error in login
                             loginErrorMsg.setText("Incorrect username/password");
@@ -92,15 +121,15 @@ public class LoginActivity extends Activity
         });
  
         // Link to Register Screen
-    //    btnLinkToRegister.setOnClickListener(new View.OnClickListener() {
-    // 
-    //        public void onClick(View view) {
-    //            Intent i = new Intent(getApplicationContext(),
-     //                   RegisterActivity.class);
-     //           startActivity(i);
-     //           finish();
-     //       }
-      //  });
+//    btnLinkToRegister.setOnClickListener(new View.OnClickListener() {
+//    
+//    	public void onClick(View view) {
+//    		Intent i = new Intent(getApplicationContext(),
+//    				DashboardActivity.class);
+//    		startActivity(i);
+//    		finish();
+//    	}
+//    });
     }
 	
 	

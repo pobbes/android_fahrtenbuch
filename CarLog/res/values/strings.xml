@@ -1,5 +1,19 @@
 <resources>
-
+    <!-- Start: register.xml -->
+    <string name="RegisterHeadline">REGISTER</string>
+    <string name="RegisterUsername">Username</string>
+    <string name="RegisterEmail">Email</string>
+    <string name="RegisterPassword">Passowrd</string>
+    <string name="btn_Register">Register</string>
+    <string name="AlreadyRegistred">Already registred. Log me in!</string>
+    <!-- End: register.xml -->
+       
+    <!-- Start: dashboard_logout.xml -->
+    <string name="DashboardHeadline">WELCOME</string>
+    <string name="DashboarLogout">Log me Out!</string>
+    <!-- End: dashboard_logout.xml -->
+    
+    
     <string name="btn_login">LogIn</string>
     <string name="btn_next">Weiter</string>
     <string name="btn_start">Starten</string>

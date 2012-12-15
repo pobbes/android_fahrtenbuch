@@ -1,4 +1,4 @@
-package mm.de.appclub.carlog;
+package de.appclub.carlog.library;
 
 import java.util.HashMap;
 
