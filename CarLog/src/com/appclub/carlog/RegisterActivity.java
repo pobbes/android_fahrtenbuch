@@ -69,14 +69,11 @@ public class RegisterActivity extends Activity {
                             // Clear all previous data in database
                             userFunction.logoutUser(getApplicationContext());
                             db.addUser(json_user.getString(KEY_USERNAME), json_user.getString(KEY_EMAIL), json.getString(KEY_USER_ID), json_user.getString(KEY_CREATED_AT),json_user.getString(KEY_IS_ADMIN));
-                            
                             // Launch DashBoard Screen
                             Intent dashboard = new Intent(getApplicationContext(), DashboardActivity.class);
-                            
                             // Close all views before launching DashBoard
                             dashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(dashboard);
-                            
                             // Close Registration Screen
                             finish();
                         }else{

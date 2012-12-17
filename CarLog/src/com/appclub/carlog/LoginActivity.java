@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
  
 
 public class LoginActivity extends Activity
@@ -81,7 +80,7 @@ public class LoginActivity extends Activity
                             
                             //if user is Admin go to registerActivity                          
                             if ((userFunction.isUserAdmin(isadmin)) == true) {                            	
-                            	System.out.println("Is Admin");
+                            	System.out.println("Admin");
                             	
                             	// Launch Register Screen
                             	Intent register = new Intent(getApplicationContext(), RegisterActivity.class);
@@ -111,7 +110,6 @@ public class LoginActivity extends Activity
                             finish();
                             
                         }else{
-                        	Toast.makeText(getApplicationContext(), "Incorrect username/password", Toast.LENGTH_SHORT).show();
                             // Error in login
                             loginErrorMsg.setText("Incorrect username/password");
                         }
@@ -123,7 +121,7 @@ public class LoginActivity extends Activity
         });
  
         // Link to Register Screen
-//        btnLinkToRegister.setOnClickListener(new View.OnClickListener() {
+//    btnLinkToRegister.setOnClickListener(new View.OnClickListener() {
 //    
 //    	public void onClick(View view) {
 //    		Intent i = new Intent(getApplicationContext(),
