@@ -45,7 +45,7 @@ public class LoginActivity extends Activity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.login);
+		setContentView(R.layout.login_layout);
 
 		// Edit Text
 		inputEmail = (EditText) findViewById(R.id.email);
