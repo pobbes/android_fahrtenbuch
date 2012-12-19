@@ -4,7 +4,7 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="8" />
+    <uses-sdk android:minSdkVersion="14" />
     
     <!-- Allow to connect with internet -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -31,6 +31,16 @@
         <activity
             android:label="Register New Account"
             android:name=".RegisterActivity"></activity>
+        
+        <!--  Admin Activity -->
+        <activity
+            android:label="Car"
+            android:name=".CarActivity"></activity>
+        
+        <!--  Car Activity -->
+        <activity
+            android:label="Admin"
+            android:name=".AdminActivity"></activity>
     </application>
  
 
