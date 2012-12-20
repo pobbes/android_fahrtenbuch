@@ -31,14 +31,14 @@
     <resources android:layout_width="wrap_content" >
  
     
-    <string name="carsign_prompt">PKW Auswählen</string>
+<!--     <string name="carsign_prompt">PKW Auswählen</string>
  
     <string-array name="carsign_arrays">
         <item>HD-101</item>
         <item>HD-102</item>
         <item>HD-102</item>
        
-    </string-array>
+    </string-array> -->
  
 </resources>
     

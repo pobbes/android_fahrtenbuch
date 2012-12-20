@@ -2,36 +2,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".LoginActivity" >
 
-    <LinearLayout >
-        
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onButtonClick"
-        android:text="@string/btn_manage" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="match_parent"
+    <LinearLayout        
+        android:id="@+id/login_status"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/btn_use" />
+        android:background="@drawable/carbonbg2"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:onClick="onButtonClick"
-        android:text="@string/btn_add" />
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onButtonClick"
+            android:text="@string/btn_manage" />
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onButtonClick"
-        android:text="@string/btn_export" />
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/btn_use" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:onClick="onButtonClick"
+            android:text="@string/btn_add" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onButtonClick"
+            android:text="@string/btn_export" />
+    </LinearLayout>
+
 </merge>

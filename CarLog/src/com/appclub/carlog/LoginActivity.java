@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class LoginActivity extends Activity
 {
@@ -31,8 +32,8 @@ public class LoginActivity extends Activity
 
 	// JSON Response node names
 	private static final String KEY_SUCCESS = "success";
-//	private static String KEY_ERROR = "error";
-//	private static String KEY_ERROR_MSG = "error_msg";
+	// private static String KEY_ERROR = "error";
+	// private static String KEY_ERROR_MSG = "error_msg";
 	private static String KEY_USER_ID = "user_id";
 	private static String KEY_USERNAME = "username";
 	private static String KEY_EMAIL = "email";
@@ -53,8 +54,8 @@ public class LoginActivity extends Activity
 
 		// Create Buttons
 		Button btnLogin = (Button) findViewById(R.id.sign_in_button);
-//		Button btnLinkToRegister = (Button)
-//		findViewById(R.id.btnLinkToRegisterScreen);
+		// Button btnLinkToRegister = (Button)
+		// findViewById(R.id.btnLinkToRegisterScreen);
 
 		loginErrorMsg = (TextView) findViewById(R.id.login_status_message);
 
@@ -66,139 +67,162 @@ public class LoginActivity extends Activity
 				new LogUserIn().execute();
 			};
 
-			/**
-			 * Background ASync Task to Create new product
-			 * */
-			class LogUserIn extends AsyncTask<String, String, String>
+		});
+	}
+
+	/**
+	 * Background ASync Task to Create new product
+	 * */
+	class LogUserIn extends AsyncTask<String, String, String>
+	{
+
+		/**
+		 * Before starting background thread Show Progress Dialog
+		 * */
+		@Override
+		protected void onPreExecute()
+		{
+			super.onPreExecute();
+			pDialog = new ProgressDialog(LoginActivity.this);
+			pDialog.setMessage("Logging in..");
+			pDialog.setIndeterminate(false);
+			pDialog.setCancelable(true);
+			pDialog.show();
+		}
+
+		/**
+		 * Logging in
+		 * */
+		@Override
+		protected String doInBackground(String... args)
+		{
+			String email = inputEmail.getText().toString();
+			String password = inputPassword.getText().toString();
+
+			// Building Parameters
+			List<NameValuePair> params = new ArrayList<NameValuePair>();
+			params.add(new BasicNameValuePair("email", email));
+			params.add(new BasicNameValuePair("password", password));
+
+			// getting JSON Object
+			UserFunctions userFunction = new UserFunctions();
+			JSONObject json = userFunction.loginUser(email, password);
+
+			// check LogCat for response
+			Log.d("Login Response", json.toString());
+
+			// check for login response
+			try
 			{
-
-				/**
-				 * Before starting background thread Show Progress Dialog
-				 * */
-				protected void onPreExecute()
+				if (json.getString(KEY_SUCCESS) != null)
 				{
-					super.onPreExecute();
-					pDialog = new ProgressDialog(LoginActivity.this);
-					pDialog.setMessage("Loggin in..");
-					pDialog.setIndeterminate(false);
-					pDialog.setCancelable(true);
-					pDialog.show();
-				}
-
-				/**
-				 * Logging in
-				 * */
-				protected String doInBackground(String... args)
-				{
-					String email = inputEmail.getText().toString();
-					String password = inputPassword.getText().toString();
-
-					// Building Parameters
-					List<NameValuePair> params = new ArrayList<NameValuePair>();
-					params.add(new BasicNameValuePair("email", email));
-					params.add(new BasicNameValuePair("password", password));
-
-					// getting JSON Object
-					UserFunctions userFunction = new UserFunctions();
-					JSONObject json = userFunction.loginUser(email, password);
-
-					// check log cat from response
-					Log.d("Login Response", json.toString());
-
-					// check for login response
-					try
+					// loginErrorMsg.setText("");
+					String res = json.getString(KEY_SUCCESS);
+					if (Integer.parseInt(res) == 1)
 					{
-						if (json.getString(KEY_SUCCESS) != null)
+						// user successfully logged in
+						// Store user details in SQLite Database
+						DatabaseHandler db = new DatabaseHandler(
+								getApplicationContext());
+						JSONObject json_user = json.getJSONObject("user");
+
+						// Clear all previous data in database
+						userFunction.logoutUser(getApplicationContext());
+						db.addUser(json_user.getString(KEY_USERNAME),
+								json_user.getString(KEY_EMAIL),
+								json.getString(KEY_USER_ID),
+								json_user.getString(KEY_CREATED_AT),
+								json_user.getString(KEY_IS_ADMIN));
+
+						// KEY_IS_ADMIN saved in String isadmin
+						String isadmin = json_user.getString(KEY_IS_ADMIN);
+
+						System.out.println(isadmin);
+
+						// if user is Admin go to AdminActivity
+						if (isadmin.equals("true"))
 						{
-							// loginErrorMsg.setText("");
-							String res = json.getString(KEY_SUCCESS);
-							if (Integer.parseInt(res) == 1)
-							{
-								// user successfully logged in
-								// Store user details in SQLite Database
-								DatabaseHandler db = new DatabaseHandler(
-										getApplicationContext());
-								JSONObject json_user = json
-										.getJSONObject("user");
+							System.out.println("Admin");
 
-								// Clear all previous data in database
-								userFunction
-										.logoutUser(getApplicationContext());
-								db.addUser(json_user.getString(KEY_USERNAME),
-										json_user.getString(KEY_EMAIL),
-										json.getString(KEY_USER_ID),
-										json_user.getString(KEY_CREATED_AT),
-										json_user.getString(KEY_IS_ADMIN));
+							// Launch Register Screen
+							Intent register = new Intent(
+									getApplicationContext(),
+									RegisterActivity.class);
 
-								String isadmin = null;
-								isadmin = json_user.getString(KEY_IS_ADMIN);
+							// Close all views before launching
+							// RegisterActivity
+							register.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-								System.out.println(isadmin);
+							// GoTo RegisterActivity
+							startActivity(register);
 
-								// if user is Admin go to registerActivity
-								if ((userFunction.isUserAdmin(isadmin)) == true)
-								{
-									System.out.println("Admin");
+							// if user is not Admin go to
+							// dashboardActivity
+						} else
+						{
+							System.out.println("No Admin");
 
-									// Launch Register Screen
-									Intent register = new Intent(
-											getApplicationContext(),
-											RegisterActivity.class);
+							// Launch DashBoard Screen
+							Intent dashboard = new Intent(
+									getApplicationContext(),
+									DashboardActivity.class);
 
-									// Close all views before launching
-									// RegisterActivity
-									register.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							// Close all views before launching
+							// DashBoard
+							dashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-									// GoTo RegisterActivity
-									startActivity(register);
-
-									// if user is not Admin go to
-									// dashboardActivity
-								} else
-								{
-									System.out.println("No Admin");
-
-									// Launch DashBoard Screen
-									Intent dashboard = new Intent(
-											getApplicationContext(),
-											DashboardActivity.class);
-
-									// Close all views before launching
-									// DashBoard
-									dashboard
-											.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-									// GoTo DashBoardActivity
-									startActivity(dashboard);
-								}
-
-								// Close Login Screen
-								finish();
-
-							} else
-							{
-								// Error in login
-								loginErrorMsg
-										.setText("Incorrect username/password");
-							}
+							// GoTo DashBoardActivity
+							startActivity(dashboard);
 						}
-					} catch (JSONException e)
-					{
-						e.printStackTrace();
-					}
-					return null;
-				}
-			};
 
-			/**
-			 * After completing background task Dismiss the progress dialog
-			 * **/
-			protected void onPostExecute()
+						// Close Login Screen
+						finish();
+
+					} else
+					{
+						// Error in login
+						this.onPostExecute("error");
+					}
+				}
+
+			} catch (JSONException e)
+			{
+				e.printStackTrace();
+			}
+
+			return null;
+		}
+
+		/**
+		 * After completing background task Dismiss the progress dialog
+		 * **/
+		@Override
+		protected void onPostExecute(String result)
+		{
+			// If return of doInBackground is "error" show toast
+			if ("error".equals(result))
+			{
+				// dismiss the dialog once done
+				pDialog.dismiss();
+
+				// show Toast with error message
+				runOnUiThread(new Runnable()
+				{
+					public void run()
+					{
+						Toast.makeText(LoginActivity.this,
+								"Incorrect username/password!",
+								Toast.LENGTH_SHORT).show();
+
+					}
+				});
+
+			} else
 			{
 				// dismiss the dialog once done
 				pDialog.dismiss();
 			}
 
-		});
-	}
+		}
+	};
 }

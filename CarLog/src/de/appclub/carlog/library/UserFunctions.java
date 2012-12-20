@@ -49,7 +49,7 @@ public class UserFunctions
 	}
 
 	/**
-	 * function make Login Request
+	 * function register User
 	 * 
 	 * @param name
 	 * @param email
@@ -81,19 +81,6 @@ public class UserFunctions
 		if (count > 0)
 		{
 			// user logged in
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Function to check if user is Admin
-	 * */
-	public boolean isUserAdmin(String isadmin)
-	{
-		if (isadmin == "true")
-		{
-			// user is Admin
 			return true;
 		}
 		return false;

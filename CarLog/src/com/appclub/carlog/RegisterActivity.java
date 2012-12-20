@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class RegisterActivity extends Activity
 {
@@ -32,8 +33,8 @@ public class RegisterActivity extends Activity
 
 	// JSON Response node names
 	private static String KEY_SUCCESS = "success";
-//	private static String KEY_ERROR = "error";
-//	private static String KEY_ERROR_MSG = "error_msg";
+	// private static String KEY_ERROR = "error";
+	// private static String KEY_ERROR_MSG = "error_msg";
 	private static String KEY_USER_ID = "user_id";
 	private static String KEY_USERNAME = "username";
 	private static String KEY_EMAIL = "email";
@@ -55,133 +56,157 @@ public class RegisterActivity extends Activity
 
 		// Create Buttons
 		Button btnRegister = (Button) findViewById(R.id.btnRegister);
-		Button btnLinkToLogin = (Button) findViewById(R.id.btnLinkToLoginScreen);
+		// Button btnLinkToLogin = (Button)
+		// findViewById(R.id.btnLinkToLoginScreen);
 
-		registerErrorMsg = (TextView) findViewById(R.id.register_error);
+		// registerErrorMsg = (TextView) findViewById(R.id.register_error);
 
 		// Register Button Click event
 		btnRegister.setOnClickListener(new View.OnClickListener()
 		{
+			@Override
 			public void onClick(View view)
 			{
-
-				// check for login response
 				new RegisterUser().execute();
-
 			}
 
-			/**
-			 * Background ASync Task to Create new product
-			 * */
-			class RegisterUser extends AsyncTask<String, String, String>
+		});
+
+		// // Link to Login Screen
+		// btnLinkToLogin.setOnClickListener(new View.OnClickListener()
+		// {
+		//
+		// public void onClick(View view)
+		// {
+		// Intent i = new Intent(getApplicationContext(),
+		// LoginActivity.class);
+		// startActivity(i);
+		//
+		// // Close Registration View
+		// finish();
+		// }
+		// });
+	}
+
+	/**
+	 * Background ASync Task to Create new product
+	 * */
+	class RegisterUser extends AsyncTask<String, String, String>
+	{
+		/**
+		 * Before starting background thread Show Progress Dialog
+		 * */
+		@Override
+		protected void onPreExecute()
+		{
+			super.onPreExecute();
+			pDialog = new ProgressDialog(RegisterActivity.this);
+			pDialog.setMessage("Registering user...");
+			pDialog.setIndeterminate(false);
+			pDialog.setCancelable(true);
+			pDialog.show();
+		}
+
+		/**
+		 * Registering User
+		 * */
+		protected String doInBackground(String... args)
+		{
+			String fullname = inputFullName.getText().toString();
+			String email = inputEmail.getText().toString();
+			String password = inputPassword.getText().toString();
+
+			// Building Parameters
+			List<NameValuePair> params = new ArrayList<NameValuePair>();
+			params.add(new BasicNameValuePair("name", fullname));
+			params.add(new BasicNameValuePair("email", email));
+			params.add(new BasicNameValuePair("password", password));
+
+			// getting JSON Object
+			UserFunctions userFunction = new UserFunctions();
+			JSONObject json = userFunction.registerUser(fullname, email,
+					password);
+
+			// check LogCat from response
+			Log.d("Register Response", json.toString());
+
+			// check for register response
+			try
 			{
-
-				/**
-				 * Before starting background thread Show Progress Dialog
-				 * */
-				protected void onPreExecute()
+				if (json.getString(KEY_SUCCESS) != null)
 				{
-					super.onPreExecute();
-					pDialog = new ProgressDialog(RegisterActivity.this);
-					pDialog.setMessage("Loggin in..");
-					pDialog.setIndeterminate(false);
-					pDialog.setCancelable(true);
-					pDialog.show();
-				}
-
-				/**
-				 * Registering User
-				 * */
-				protected String doInBackground(String... args)
-				{
-					String fullname = inputFullName.getText().toString();
-					String email = inputEmail.getText().toString();
-					String password = inputPassword.getText().toString();
-
-					// Building Parameters
-					List<NameValuePair> params = new ArrayList<NameValuePair>();
-					params.add(new BasicNameValuePair("name", fullname));
-					params.add(new BasicNameValuePair("email", email));
-					params.add(new BasicNameValuePair("password", password));
-
-					// getting JSON Object
-					UserFunctions userFunction = new UserFunctions();
-					JSONObject json = userFunction.registerUser(fullname,
-							email, password);
-
-					// check log cat from response
-					Log.d("Login Response", json.toString());
-
-					// check for register response
-					try
+					registerErrorMsg.setText("");
+					String res = json.getString(KEY_SUCCESS);
+					if (Integer.parseInt(res) == 1)
 					{
-						if (json.getString(KEY_SUCCESS) != null)
-						{
-							registerErrorMsg.setText("");
-							String res = json.getString(KEY_SUCCESS);
-							if (Integer.parseInt(res) == 1)
-							{
-								// user successfully registered
-								// Store user details in SQLite Database
-								DatabaseHandler db = new DatabaseHandler(getApplicationContext());
-								JSONObject json_user = json.getJSONObject("user");
+						// user successfully registered
+						// Store user details in SQLite Database
+						DatabaseHandler db = new DatabaseHandler(
+								getApplicationContext());
+						JSONObject json_user = json.getJSONObject("user");
 
-								// Clear all previous data in database
-								userFunction
-										.logoutUser(getApplicationContext());
-								db.addUser(json_user.getString(KEY_USERNAME),
-										json_user.getString(KEY_EMAIL),
-										json.getString(KEY_USER_ID),
-										json_user.getString(KEY_CREATED_AT),
-										json_user.getString(KEY_IS_ADMIN));
-								// Launch DashBoard Screen
-								Intent dashboard = new Intent(
-										getApplicationContext(),
-										DashboardActivity.class);
-								// Close all views before launching DashBoard
-								dashboard
-										.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-								startActivity(dashboard);
-								// Close Registration Screen
-								finish();
-							} else
-							{
-								// Error in registration
-								registerErrorMsg
-										.setText("Error occured in registration");
-							}
-						}
-					} catch (JSONException e)
+						// Clear all previous data in database
+						userFunction.logoutUser(getApplicationContext());
+						db.addUser(json_user.getString(KEY_USERNAME),
+								json_user.getString(KEY_EMAIL),
+								json.getString(KEY_USER_ID),
+								json_user.getString(KEY_CREATED_AT),
+								json_user.getString(KEY_IS_ADMIN));
+
+						// Launch DashBoard Screen
+						Intent dashboard = new Intent(getApplicationContext(),
+								DashboardActivity.class);
+
+						// Close all views before launching DashBoard
+						dashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						startActivity(dashboard);
+
+						// Close Registration Screen
+						finish();
+
+					} else
 					{
-						e.printStackTrace();
+						// Error in registration
+						this.onPostExecute("error");
 					}
-					return null;
 				}
-			};
+			} catch (JSONException e)
+			{
+				e.printStackTrace();
+			}
+			return null;
+		}
 
-			/**
-			 * After completing background task Dismiss the progress dialog
-			 * **/
-			protected void onPostExecute()
+		/**
+		 * After completing background task Dismiss the progress dialog
+		 * **/
+		protected void onPostExecute(String result)
+		{
+			// If return of doInBackground is "error" show toast
+			if ("error".equals(result))
+			{
+				// dismiss the dialog once done
+				pDialog.dismiss();
+
+				// show Toast with error message
+				runOnUiThread(new Runnable()
+				{
+					public void run()
+					{
+						Toast.makeText(RegisterActivity.this,
+								"Error occured in registration!",
+								Toast.LENGTH_SHORT).show();
+
+					}
+				});
+
+			} else
 			{
 				// dismiss the dialog once done
 				pDialog.dismiss();
 			}
 
-		});
+		}
+	};
 
-		// Link to Login Screen
-		btnLinkToLogin.setOnClickListener(new View.OnClickListener()
-		{
-
-			public void onClick(View view)
-			{
-				Intent i = new Intent(getApplicationContext(),
-						LoginActivity.class);
-				startActivity(i);
-				// Close Registration View
-				finish();
-			}
-		});
-	}
 }
